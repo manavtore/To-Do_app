@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EmailTextField: View {
+    @StateObject private var loginViewModel = LoginViewModel()
     var body: some View {
         @State var name = ""
         @State var password = ""
@@ -30,6 +31,7 @@ struct EmailTextField: View {
                     
                     TextField("Enter the EmailID", text: $email ).textFieldStyle(RoundedBorderTextFieldStyle())
                         .font(.system(size: 22))
+                        .textInputAutocapitalization(.never)
                         .colorMultiply(.white)
                         .keyboardType(.emailAddress)
                         .background(Color(.init(white:1,alpha: 0.50)))
@@ -64,7 +66,9 @@ struct EmailTextField: View {
                 }
                 
                 HStack {
-                    Button{}label: {
+                    Button(action: {
+                        loginViewModel.login()
+                    }){
                         Text("Log in")
                             .font(.system(size: 30,weight: .bold))
                             .border(Color.black)
@@ -78,7 +82,7 @@ struct EmailTextField: View {
     
                         
                 }.padding(.top)
-            }
+            }.environmentObject(loginViewModel)
         }
     }
 }
